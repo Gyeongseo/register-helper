@@ -47,13 +47,16 @@ td = [n.text.strip().replace('  ', '').replace('\r\n', '').replace('\xa0', '').r
       for n in soup.find('div', class_="table write margin_top10 align_center font-size11").find_all('td')]
 
 result = []
-csv_columns = ['과목', '교수', '시간', '신청인원']
+csv_columns = ['번호', '과목', '교수', '시간', '신청인원']
 
-sub, prof, time, num = 4, 11, 14, 15
-sub_tmp, prof_tmp, time_tmp, num_tmp = "", "", "", ""
+no, sub, prof, time, num = 0, 4, 11, 14, 15
+no_tmp, sub_tmp, prof_tmp, time_tmp, num_tmp = "", "", "", "", ""
 
 for i, data in enumerate(td):
-    if i == sub:
+    if i == no:
+        no_tmp = data
+        no += 17
+    elif i == sub:
         sub_tmp = data
         sub += 17
     elif i == prof:
@@ -65,7 +68,7 @@ for i, data in enumerate(td):
     elif i == num:
         num_tmp = data
         num += 17
-        result.append({'과목': sub_tmp, '교수': prof_tmp, '시간': time_tmp, '신청인원': num_tmp})
+        result.append({'번호': no_tmp, '과목': sub_tmp, '교수': prof_tmp, '시간': time_tmp, '신청인원': num_tmp})
 
 tocsv("reg_result.csv", result)
 
